@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: tambedou/mysql:8.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"  # Utilisez un mot de passe sécurisé dans un environnement de production
+            - name: MYSQL_DATABASE
+              value: "basestudent"
+          volumeMounts:
+            - mountPath: "/var/lib/mysql"
+              name: mysql-storage
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: mysql
+  clusterIP: None  # Pour permettre une IP stable pour le backend
+
