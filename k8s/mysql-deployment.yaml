@@ -33,9 +33,11 @@ kind: Service
 metadata:
   name: mysql-service
 spec:
+  type: ClusterIP  # Assurez-vous d'utiliser ClusterIP pour une IP stable
   ports:
     - port: 3306
+      targetPort: 3306
   selector:
     app: mysql
-  clusterIP: None  # Pour permettre une IP stable pour le backend
+
 
