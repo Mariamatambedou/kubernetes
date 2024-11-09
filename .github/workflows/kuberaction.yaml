@@ -46,7 +46,6 @@ jobs:
       - name: Build frontend Angular app
         run: |
               cd frontend-angular
-              npm install
               npm run build --prod
 
 
