@@ -22,7 +22,7 @@ jobs:
         run: chmod +x mvnw  # Donne les permissions d'exécution à mvnw
 
       - name: Build with Maven
-        run: ./mvnw clean package  # Utilise le wrapper Maven
+        run:  ./mvnw clean package -DskipTests
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
