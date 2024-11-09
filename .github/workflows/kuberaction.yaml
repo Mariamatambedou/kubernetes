@@ -14,8 +14,8 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
+       uses: actions/setup-java@v2
+       with:
           java-version: '17'  # Remplacez par la version que vous utilisez
 
       - name: Grant execute permission for mvnw
