@@ -43,6 +43,10 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/demo-enset-student_backend:latest
 
+      
+      - name: Install Angular CLI globally
+        run: npm install -g @angular/cli
+ 
       - name: Build frontend Angular app
         run: |
               cd frontend-angular
