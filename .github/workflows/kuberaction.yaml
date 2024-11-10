@@ -1,5 +1,7 @@
 name: Deploy to Minikube
 
+name: Deploy to Minikube
+
 on:
   push:
     branches:
@@ -8,21 +10,24 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted  # Utilise un runner auto-hébergé
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_TOKEN }}
+      
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           java-version: '17'  # Remplacez par la version que vous utilisez
           distribution: 'temurin'
+      
       - name: Grant execute permission for mvnw
         run: chmod +x mvnw  # Donne les permissions d'exécution à mvnw
 
       - name: Build with Maven
-        run:  ./mvnw clean package -DskipTests
+        run: ./mvnw clean package -DskipTests
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -32,7 +37,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
 
       # Build and push backend image
       - name: Build and push backend image
@@ -43,26 +47,26 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/demo-enset-student_backend:latest
 
-
-
       - name: Set npm registry
         run: npm config set registry https://registry.npmjs.org
 
       - name: Clean npm cache
         run: npm cache clean --force
 
-      - name: Install dependencies
+      # Installation des dépendances et build du frontend
+      - name: Install frontend dependencies
+        working-directory: ./frontend-angular  # Aller dans le dossier frontend
         run: npm install
-
-      - name: Build project
+      
+      - name: Build frontend project
+        working-directory: ./frontend-angular  # Toujours dans le dossier frontend
         run: npm run build
- 
 
       # Build and push frontend image
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
-          context: .  # Répertoire du frontend contenant le Dockerfile
+          context: ./frontend-angular  # Répertoire du frontend contenant le Dockerfile
           file: ./frontend-angular/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/demo-enset-student_frontend:latest
@@ -70,11 +74,13 @@ jobs:
       - name: Logout from Docker Hub
         run: docker logout
 
-      - name: Set up kubectl
+      # Vérification de kubectl pour Minikube et déploiement
+      - name: Check kubectl Minikube configuration
         run: |
-          # Vérifiez si kubectl est configuré pour Minikube
-          kubectl get nodes
-      - name: Deploy
-        run: |
-          kubectl apply -f k8s/ 
-
+          if ! kubectl get nodes; then
+            echo "kubectl is not configured correctly for Minikube"
+            exit 1
+          fi
+      
+      - name: Deploy to Minikube
+        run: kubectl apply -f k8s/
