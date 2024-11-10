@@ -2,7 +2,7 @@
 FROM nginx:alpine
 
 # Copier les fichiers Angular buildés depuis le répertoire dist dans le répertoire de Nginx
-COPY ./frontend-angular/dist/frontend-ang-app/browser/ /usr/share/nginx/html
+COPY dist/frontend-ang-app/browser/ /usr/share/nginx/html
 
 # Exposer le port que Nginx utilise
 EXPOSE 80
