@@ -1,6 +1,9 @@
 # Utiliser une image de base Java
 FROM openjdk:17-jdk-slim
 
+# Installer curl pour effectuer des requêtes HTTP
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
 # Définir le répertoire de travail dans le conteneur
 WORKDIR /app
 
@@ -12,3 +15,4 @@ EXPOSE 8021
 
 # Commande pour exécuter l'application
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
