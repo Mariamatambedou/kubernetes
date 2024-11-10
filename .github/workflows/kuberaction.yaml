@@ -1,7 +1,5 @@
 name: Deploy to Minikube
 
-name: Deploy to Minikube
-
 on:
   push:
     branches:
