@@ -47,6 +47,8 @@ jobs:
       - name: Build frontend Angular app
         run: |
               cd frontend-angular
+              rm -rf node_modules package-lock.json
+              npm install
               npm run build --prod
 
 
