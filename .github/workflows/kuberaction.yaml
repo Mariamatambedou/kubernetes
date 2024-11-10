@@ -43,14 +43,20 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/demo-enset-student_backend:latest
 
- 
-      - name: Build frontend Angular app
-        run: |
-              cd frontend-angular
-              rm -rf node_modules package-lock.json
-              npm install
-              npm run build --prod
 
+
+      - name: Set npm registry
+        run: npm config set registry https://registry.npmjs.org
+
+      - name: Clean npm cache
+        run: npm cache clean --force
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+ 
 
       # Build and push frontend image
       - name: Build and push frontend image
