@@ -48,13 +48,13 @@ jobs:
       - name: Set npm registry
         run: npm config set registry https://registry.npmjs.org
 
-      - name: Clean npm cache
-        run: npm cache clean --force
+      - name: Clean npm cache and install frontend dependencies
+        working-directory: ./frontend-angular
+        run: |
+          npm cache clean --force
+          rm -rf node_modules
+          npm install
 
-      # Installation des dépendances et build du frontend
-      - name: Install frontend dependencies
-        working-directory: ./frontend-angular  # Aller dans le dossier frontend
-        run: npm install
       
       - name: Build frontend project
         working-directory: ./frontend-angular  # Toujours dans le dossier frontend
