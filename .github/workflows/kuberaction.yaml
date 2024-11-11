@@ -51,7 +51,8 @@ jobs:
       - name: Clean npm cache and install frontend dependencies
         working-directory: ./frontend-angular
         run: |
-          npm cache clean --force
+          npm cache clean
+          rm package-lock.json
           rm -rf node_modules
           npm install
 
