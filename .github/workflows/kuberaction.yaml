@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted  # Utilise un runner auto-hébergé
+    runs-on: ubuntu-latest  # Utilise un runner auto-hébergé
 
     steps:
       - name: Checkout code
@@ -43,7 +43,7 @@ jobs:
           context: .  # Répertoire du backend contenant le Dockerfile
           file: src/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/demo-enset-student_backend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/backend:latest
 
       - name: Set npm registry
         run: npm config set registry https://registry.npmjs.org
@@ -68,7 +68,7 @@ jobs:
           context: ./frontend-angular  # Répertoire du frontend contenant le Dockerfile
           file: ./frontend-angular/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/demo-enset-student_frontend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/frontend:latest
 
       - name: Logout from Docker Hub
         run: docker logout
