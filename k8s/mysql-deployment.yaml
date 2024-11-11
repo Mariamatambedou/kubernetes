@@ -23,10 +23,16 @@ spec:
           volumeMounts:
             - mountPath: "/var/lib/mysql"
               name: mysql-storage
+            - mountPath: "/docker-entrypoint-initdb.d"  # Montage du répertoire d'initialisation
+              name: init-sql-volume  # Le volume qui contient init.sql via le ConfigMap
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
             claimName: mysql-pvc
+        - name: init-sql-volume
+          configMap:
+            name: mysql-init-sql  # Nom du ConfigMap qui contient init.sql
+            defaultMode: 420  # Permissions par défaut du fichier (rw-r--r--)
 ---
 apiVersion: v1
 kind: Service
@@ -39,5 +45,4 @@ spec:
       targetPort: 3306
   selector:
     app: mysql
-
 

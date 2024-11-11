@@ -1,4 +1,3 @@
-# mysql-pv.yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -8,18 +7,8 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
+  storageClassName: standard  # Assurez-vous que cette StorageClass correspond à celle du PVC
   hostPath:
-    path: "/mnt/data/mysql"  # Sur un cluster géré, utilisez une solution de stockage dynamique
+    path: "/mnt/data/mysql"  # Dossier sur le nœud pour le stockage
+  persistentVolumeReclaimPolicy: Delete  # Pour le supprimer automatiquement si nécessaire
 
----
-# mysql-pvc.yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi

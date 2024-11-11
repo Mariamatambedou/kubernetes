@@ -19,7 +19,7 @@ export class StudentsComponent implements OnInit{
   constructor(private http: HttpClient){}
 
   ngOnInit() {
-    this.http.get('http://localhost:8021/students')
+    this.http.get('http://k8s.local:8021/students')
     .subscribe({
       next : data => {
          this.students = data;
