@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: tambedou/demo-enset-student_backend:latest
+          image: tambedou/backend:latest
           ports:
             - containerPort: 8021
           env:

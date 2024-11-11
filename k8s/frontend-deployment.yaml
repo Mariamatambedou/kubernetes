@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: tambedou/demo-enset-student_frontend:latest
+          image: tambedou/frontend:latest
           ports:
             - containerPort: 80
 ---
