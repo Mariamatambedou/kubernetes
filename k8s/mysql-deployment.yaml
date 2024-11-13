@@ -22,24 +22,18 @@ spec:
               value: "basestudent"
           volumeMounts:
             - mountPath: "/var/lib/mysql"
-              name: mysql-storage
-            - mountPath: "/docker-entrypoint-initdb.d"  # Montage du répertoire d'initialisation
-              name: init-sql-volume  # Le volume qui contient init.sql via le ConfigMap
+              name: mysql-storage  # Ce volume reste pour les données persistantes
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
-            claimName: mysql-pvc
-        - name: init-sql-volume
-          configMap:
-            name: mysql-init-sql  # Nom du ConfigMap qui contient init.sql
-            defaultMode: 420  # Permissions par défaut du fichier (rw-r--r--)
+            claimName: mysql-pvc  # Le PVC pour stocker les données de MySQL
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: mysql-service
 spec:
-  type: ClusterIP  # Assurez-vous d'utiliser ClusterIP pour une IP stable
+  type: ClusterIP
   ports:
     - port: 3306
       targetPort: 3306
