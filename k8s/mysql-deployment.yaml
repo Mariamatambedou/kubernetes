@@ -17,7 +17,7 @@ spec:
           image: tambedou/mysql:8.0
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "root"  # Utilisez un mot de passe sécurisé dans un environnement de production
+              value: "root"
             - name: MYSQL_DATABASE
               value: "basestudent"
           volumeMounts:

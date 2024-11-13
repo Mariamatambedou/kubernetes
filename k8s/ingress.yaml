@@ -10,16 +10,26 @@ metadata:
     nginx.ingress.kubernetes.io/cors-allow-headers: "Content-Type, Authorization"
 spec:
   rules:
-    - host: k8s.local  # Changez avec le nom de domaine souhaité
+    - host: k8s.local
       http:
         paths:
-          - path: /api
+          # Redirection vers le backend-service pour les endpoints /students et /payments
+          - path: /students
             pathType: Prefix
             backend:
               service:
                 name: backend-service
                 port:
-                  number: 80
+                  number: 8021
+          - path: /payments
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 8021
+          
+          # Redirection vers le frontend-service pour toutes les autres routes
           - path: /
             pathType: Prefix
             backend:
