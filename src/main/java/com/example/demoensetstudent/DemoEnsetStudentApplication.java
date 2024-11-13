@@ -29,7 +29,7 @@ public class DemoEnsetStudentApplication {
 					.id(UUID.randomUUID().toString())  // Générer un ID unique
 					.firstName("John")
 					.lastName("Doe")
-					.code("JD123")
+					.code("11100")
 					.programId("program1")
 					.photo("photo1.jpg")
 					.build();
@@ -38,7 +38,7 @@ public class DemoEnsetStudentApplication {
 					.id(UUID.randomUUID().toString())  // Générer un ID unique
 					.firstName("Jane")
 					.lastName("Doe")
-					.code("JD124")
+					.code("22200")
 					.programId("program2")
 					.photo("photo2.jpg")
 					.build();
