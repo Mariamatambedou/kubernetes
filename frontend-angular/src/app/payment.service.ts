@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class PaymentService {
 
-  private apiUrl = 'http://10.102.207.27:8021'; // Remplacez par l'URL de votre backend
+  private apiUrl = 'http://backend-service.default.svc.cluster.local:80'; // Remplacez par l'URL de votre backend
 
   constructor(private http: HttpClient) { }
 
