@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api")
 public class PaymentRestController {
     private StudentRepository studentRepository;
     private PaymentRepository paymentRepository;
