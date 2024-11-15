@@ -19,7 +19,7 @@ export class StudentsComponent implements OnInit{
   constructor(private http: HttpClient){}
 
   ngOnInit() {
-    this.http.get('http://backend-service.default.svc.cluster.local:80/students')
+    this.http.get('k8s.local/students')
     .subscribe({
       next : data => {
          this.students = data;

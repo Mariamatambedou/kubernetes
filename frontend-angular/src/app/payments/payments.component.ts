@@ -22,7 +22,7 @@ export class PaymentsComponent implements OnInit{
   constructor(private http: HttpClient,private router: Router){}
 
   ngOnInit() {
-    this.http.get('http://backend-service.default.svc.cluster.local:80/payments')
+    this.http.get('k8s.local/payments')
     .subscribe({
       next : data => {
          this.payments = data;
