@@ -32,59 +32,59 @@ public class PaymentRestController {
         this.paymentService = paymentService;
     }
 
-    @GetMapping("/payments")
+    @GetMapping("/api/payments")
     public List<Payment> allPayments() {
         return paymentRepository.findAll();
     }
 
-    @GetMapping("/students/{code}/payments")
+    @GetMapping("/api/students/{code}/payments")
     public List<Payment> paymentByStudent(@PathVariable String code) {
         return paymentRepository.findByStudentCode(code);
     }
 
-    @GetMapping("/payments/byStatus")
+    @GetMapping("/api/payments/byStatus")
     public List<Payment> paymentByStatus(@RequestParam PaymentStatus status) {
         return paymentRepository.findByStatus(status);
     }
 
-    @GetMapping("/payments/byType")
+    @GetMapping("/api/payments/byType")
     public List<Payment> paymentByType(@RequestParam PaymentType type) {
         return paymentRepository.findByType(type);
     }
 
-    @GetMapping("/payments/{id}")
+    @GetMapping("/api/payments/{id}")
     public Payment getPaymentById(@PathVariable Long id) {
         return paymentRepository.findById(id).get();
     }
 
-    @GetMapping("/students")
+    @GetMapping("/api/students")
     public List<Student> allStudents() {
         return studentRepository.findAll();
     }
 
-    @GetMapping("/students/{code}")
+    @GetMapping("/api/students/{code}")
     public Student getStudentById(@PathVariable String code) {
         return studentRepository.findByCode(code);
     }
 
-    @GetMapping("/studentsByProgramId")
+    @GetMapping("/api/studentsByProgramId")
     public List<Student> getStudentsByProgramId(@RequestParam String programId) {
         return studentRepository.findByProgramId(programId);
     }
 
-    @PutMapping("/payments/{id}")
+    @PutMapping("/api/payments/{id}")
     public Payment updatePaymentStatus(@RequestParam PaymentStatus status, @PathVariable Long id) {
         return paymentService.updatePaymentStatus(status, id);
     }
 
-    @PostMapping(path = "/payments", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/api/payments", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Payment savePayment(@RequestParam MultipartFile file, LocalDate date, double amount, PaymentType type, String studentCode) throws IOException {
 
         return this.paymentService.savePayment(file, date, amount, type, studentCode);
 
     }
 
-    @GetMapping(value = "/paymentFile/{paymentId}", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/api/paymentFile/{paymentId}", produces = MediaType.APPLICATION_PDF_VALUE)
     public byte[] getPaymentFile(@PathVariable Long paymentId) throws IOException {
         return paymentService.getPaymentFile(paymentId);
     }
