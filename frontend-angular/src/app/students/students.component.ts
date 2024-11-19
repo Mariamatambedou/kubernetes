@@ -19,7 +19,7 @@ export class StudentsComponent implements OnInit{
   constructor(private http: HttpClient){}
 
   ngOnInit() {
-    this.http.get('/api/students')
+    this.http.get('/students')
     .subscribe({
       next : data => {
          this.students = data;

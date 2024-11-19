@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: frontend-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-origin: "http://k8s.local"
     nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
@@ -13,18 +13,25 @@ spec:
     - host: k8s.local
       http:
         paths:
+          - path: /payments
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 80
+          - path: /students
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 80
           - path: /
             pathType: Prefix
             backend:
               service:
                 name: frontend-service
-                port:
-                  number: 80
-          - path: /api  # Ajout pour exposer le backend via /api
-            pathType: Prefix
-            backend:
-              service:
-                name: backend-service
                 port:
                   number: 80
 
