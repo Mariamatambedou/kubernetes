@@ -22,7 +22,7 @@ export class PaymentsComponent implements OnInit{
   constructor(private http: HttpClient,private router: Router){}
 
   ngOnInit() {
-    this.http.get('/payments')
+    this.http.get('api/payments')
     .subscribe({
       next : data => {
          this.payments = data;
