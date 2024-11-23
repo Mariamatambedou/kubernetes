@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.mysql.storage.pv.name }}  # On fait référence à .Values.mysql.storage.pv.name
+spec:
+  capacity:
+    storage: {{ .Values.mysql.storage.size }}  # On fait référence à .Values.mysql.storage.size
+  accessModes:
+    - {{ .Values.mysql.storage.pv.accessMode }}  # On fait référence à .Values.mysql.storage.pv.accessMode
+  storageClassName: {{ .Values.mysql.storage.pv.storageClassName }}  # StorageClassName
+  hostPath:
+    path: {{ .Values.mysql.storage.pv.hostPath }}  # Host path
+  persistentVolumeReclaimPolicy: {{ .Values.mysql.storage.pv.reclaimPolicy }}  # Reclaim policy
+

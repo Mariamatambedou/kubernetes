@@ -1,0 +1,77 @@
+mysql:
+  name: mysql-deployment
+  replicaCount: 1
+  image:
+    repository: tambedou/mysql
+    tag: "8.0"
+  rootPassword: "root"
+  databaseName: "basestudent"
+  service:
+    name: mysql-service
+    type: ClusterIP
+    ports:
+      service: 3306
+      container: 3306
+  storage:
+    size: 1Gi
+    pv:
+      name: mysql-pv
+      accessMode: ReadWriteOnce
+      storageClassName: standard
+      hostPath: "/mnt/data/mysql"
+      reclaimPolicy: Delete
+
+backend:
+  name: backend-deployment
+  replicaCount: 2
+  image:
+    repository: tambedou/backend
+    tag: latest
+  ports:
+    service: 80
+    container: 8021
+  resources:
+    requests:
+      cpu: "100m"
+    limits:
+      cpu: "500m"
+  database:
+    url: "jdbc:mysql://mysql-service:3306/basestudent"
+    username: "root"
+    password: "root"
+  service:
+    type: ClusterIP
+    name: backend-service
+    port: 80
+image:
+    repository: tambedou/frontend
+    tag: latest
+ports:
+    service: 80
+    container: 80    
+frontend:
+  name: frontend-deployment
+  replicaCount: 2
+  service:
+    type: ClusterIP
+    name: frontend-service
+    port: 80
+
+
+
+autoscaler:
+  name: backend-autoscaler
+  minReplicas: 2
+  maxReplicas: 5
+  cpuAverageUtilization: 80
+
+ingress:
+  name: frontend-ingress
+  host: k8s.local
+  cors:
+    allowOrigin: "http://k8s.local"
+    allowMethods: "GET, POST, PUT, DELETE, OPTIONS"
+    allowHeaders: "Content-Type, Authorization"
+
+  
+  
