@@ -32,9 +32,9 @@ backend:
     container: 8021
   resources:
     requests:
-      cpu: "100m"
+      cpu: "50m"
     limits:
-      cpu: "500m"
+      cpu: "250m"
   database:
     url: "jdbc:mysql://mysql-service:3306/basestudent"
     username: "root"

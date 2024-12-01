@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-first-helm-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/Mariamatambedou/kubernetes.git' # Remplacez par l'URL de votre dépôt Git
+    targetRevision: main          # La branche ou le tag à utiliser
+    path: my-first-helm           # Chemin vers le chart Helm dans le dépôt Git
+    helm:
+      valueFiles:
+        - values.yaml             # Fichier values.yaml pour Helm
+      releaseName: my-first-app   # Nom de la release Helm
+  destination:
+    server: https://kubernetes.default.svc  # Utilise le cluster actuel
+    namespace: default            # Namespace où déployer l'application
+  syncPolicy:
+    automated:
+      prune: true                 # Supprime les ressources non utilisées
+      selfHeal: true              # Corrige automatiquement les divergences
