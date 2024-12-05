@@ -51,7 +51,7 @@ ports:
     container: 80    
 frontend:
   name: frontend-deployment
-  replicaCount: 1
+  replicaCount: 2
   service:
     type: ClusterIP
     name: frontend-service

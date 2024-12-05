@@ -6,17 +6,17 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/Mariamatambedou/kubernetes.git' # Remplacez par l'URL de votre dépôt Git
-    targetRevision: main          # La branche ou le tag à utiliser
-    path: my-first-helm           # Chemin vers le chart Helm dans le dépôt Git
+    repoURL: 'https://github.com/Mariamatambedou/kubernetes.git' 
+    targetRevision: main          
+    path: my-first-helm           
     helm:
       valueFiles:
-        - values.yaml             # Fichier values.yaml pour Helm
-      releaseName: my-first-app   # Nom de la release Helm
+        - values.yaml            
+      releaseName: my-first-app   
   destination:
-    server: https://kubernetes.default.svc  # Utilise le cluster actuel
-    namespace: default            # Namespace où déployer l'application
+    server: https://kubernetes.default.svc  
+    namespace: default            
   syncPolicy:
     automated:
-      prune: true                 # Supprime les ressources non utilisées
-      selfHeal: true              # Corrige automatiquement les divergences
+      prune: true                 
+      selfHeal: true        
