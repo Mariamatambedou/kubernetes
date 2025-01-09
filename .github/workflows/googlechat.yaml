@@ -1,4 +1,4 @@
-name: Send Message to Google Chat
+name: GitHub Notification to Google Chat
 
 on:
   push:
@@ -6,20 +6,16 @@ on:
       - main  # Déclenche le workflow lorsqu'un commit est poussé sur la branche 'main'
   pull_request:
     branches:
-      - main  # Déclenche le workflow lorsqu'une pull request est ouverte sur la branche 'main'
+      - main  # Déclenche le workflow lorsqu'une pull request est ouverte ou mise à jour sur la branche 'main'
 
 jobs:
   google-chat-action:
-    name: Google Chat GitHub Action
+    name: Google Chat GitHub Notification
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        id: checkout
         uses: actions/checkout@v4  # Vérifie le code source du dépôt
-
-      # Vous pouvez ajouter ici d'autres étapes de build, tests, etc.
-      # Exemple : Build avec Maven, tests, etc.
 
       - name: Notify Google Chat
         if: ${{ always() }}  # Cette condition permet d'envoyer la notification même en cas d'échec d'une étape précédente
@@ -27,10 +23,15 @@ jobs:
         with:
           webhookUrl: '${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}'  # Utilise le webhook Google Chat configuré dans les secrets GitHub
           message: |
-            📝 *Nouvel événement sur GitHub* :
-
-            - **Événement** : ${{ github.event_name }}
-            - **Repository** : ${{ github.repository }}
+            {{#if eq github.event_name 'push'}}
+            🚀 *Push Event* dans le dépôt **${{ github.repository }}**:
             - **Committer** : ${{ github.actor }}
+            - **Message de Commit** : ${{ github.event.head_commit.message }}
             - **Branch** : ${{ github.ref }}
-            - **URL** : ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+            - **URL du commit** : ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+            {{else if eq github.event_name 'pull_request'}}
+            🔧 *Pull Request* dans le dépôt **${{ github.repository }}**:
+            - **Auteur** : ${{ github.actor }}
+            - **Titre de PR** : ${{ github.event.pull_request.title }}
+            - **URL de PR** : ${{ github.event.pull_request.html_url }}
+            {{/if}}
