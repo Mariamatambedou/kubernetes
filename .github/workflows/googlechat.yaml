@@ -1,0 +1,36 @@
+name: Send Message to Google Chat
+
+on:
+  push:
+    branches:
+      - main  # Déclenche le workflow lorsqu'un commit est poussé sur la branche 'main'
+  pull_request:
+    branches:
+      - main  # Déclenche le workflow lorsqu'une pull request est ouverte sur la branche 'main'
+
+jobs:
+  google-chat-action:
+    name: Google Chat GitHub Action
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        id: checkout
+        uses: actions/checkout@v4  # Vérifie le code source du dépôt
+
+      # Vous pouvez ajouter ici d'autres étapes de build, tests, etc.
+      # Exemple : Build avec Maven, tests, etc.
+
+      - name: Notify Google Chat
+        if: ${{ always() }}  # Cette condition permet d'envoyer la notification même en cas d'échec d'une étape précédente
+        uses: SimonScholz/google-chat-action@main  # Utilise l'action Google Chat
+        with:
+          webhookUrl: '${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}'  # Utilise le webhook Google Chat configuré dans les secrets GitHub
+          message: |
+            📝 *Nouvel événement sur GitHub* :
+
+            - **Événement** : ${{ github.event_name }}
+            - **Repository** : ${{ github.repository }}
+            - **Committer** : ${{ github.actor }}
+            - **Branch** : ${{ github.ref }}
+            - **URL** : ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
