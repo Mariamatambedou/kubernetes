@@ -28,10 +28,10 @@ jobs:
             - **Committer** : ${{ github.actor }}
             - **Message de Commit** : ${{ github.event.head_commit.message }}
             - **Branch** : ${{ github.ref }}
-            - **URL du commit** : ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+            - **URL du commit** : [Voir Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
             {{else if eq github.event_name 'pull_request'}}
             🔧 *Pull Request* dans le dépôt **${{ github.repository }}**:
             - **Auteur** : ${{ github.actor }}
             - **Titre de PR** : ${{ github.event.pull_request.title }}
-            - **URL de PR** : ${{ github.event.pull_request.html_url }}
+            - **URL de PR** : [Voir la PR](${{ github.event.pull_request.html_url }})
             {{/if}}
